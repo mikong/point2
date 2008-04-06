@@ -28,7 +28,41 @@ describe "Point2 Project" do
       @book = Book.new('Harry Potter')
       @book.try(:title).should eql('Harry Potter')
     end
-
+    
+    it "can be tapped" do
+      @reversed_and_capitalized =  "dog".reverse.tap {|o| @reversed = o}.capitalize
+      @reversed.should == 'god'
+      @reversed_and_capitalized.should == 'God'
+    end
+    
+    it "can return a public method" do
+      @object = Object.new
+      
+      # calling a non-existent method
+      lambda do
+        @object.public_method(:tatata)
+      end.should raise_error(NameError)
+      
+      # calling a private method
+      lambda do
+        @object.public_method(:format)
+      end.should raise_error(NameError)
+      
+      # calling a public method
+      @method = @object.public_method(:class)
+      @method.call.should == @object.class
+    end
+    
+    it "can __send__ *args to a public method" do
+      @object = Object.new
+      
+      # send to a private method
+      lambda do
+        @object.public_send(:format)
+      end.should raise_error(NoMethodError)
+      
+      @object.public_send(:class).should == @object.class
+    end
   end
   
   describe Array do

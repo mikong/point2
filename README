@@ -1,0 +1,7 @@
+== Point 2
+
+Ruby 2.0 functionality implemented in Ruby 1.8.
+
+The objective of this project is not to port the next version of Ruby to Ruby 1.8. This project was created to play around with metaprogramming. Read this {blog entry}[http://devblog.michaelgalero.com/2008/04/03/ruby-19-hash-in-ruby-18/] on how this project came about.
+
+== Installation

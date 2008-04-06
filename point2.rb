@@ -5,6 +5,36 @@ class Object
     send method if respond_to? method
   end
   
+  # Defines a singleton_method in the receiver. The method parameter can be a Proc or
+  # Method object. If a block is specified, it is used as the method body. This block
+  # is evaluated using instance_eval.
+  def define_singleton_method(symbol, method)
+    # TODO
+  end
+  
+  # Looks up the named public method, returning a Method object (or raising NameError
+  # if the method is not found, or if it is found but not public).
+  def public_method(symbol)
+    unless self.public_methods.include?(symbol.to_s)
+      raise NameError.new("undefined public method '#{symbol}' for class '#{self.class}'")
+    end
+    self.method(symbol)
+  end
+  
+  # Same as send but for public methods only.
+  def public_send(name, *args)
+    unless self.public_methods.include?(name.to_s)
+      raise NoMethodError.new("undefined public method '#{name}' for #{self.to_s}", name, *args)
+    end
+    self.__send__(name, *args)
+  end
+  
+  # Invokes the block, passing obj as a parameter. Returns obj. Allows you to write code
+  # that takes part in a method chain but that does not affect the overall value of the chain.
+  def tap
+    yield self
+    self
+  end
 end
 
 class Array
